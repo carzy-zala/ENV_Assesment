@@ -1,5 +1,5 @@
 from pathlib import Path
-from utils.logger import logger
+from utils.logging.logger import logger
 
 
 def main():
