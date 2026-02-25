@@ -1,3 +1,9 @@
 2026-02-23 14:38:07,590 | INFO | pipeline | Pipeline started
 2026-02-23 14:38:07,590 | INFO | pipeline | Environment ready
 2026-02-23 14:38:07,591 | INFO | pipeline | Pipeline finished successfully
+2026-02-25 14:07:05,651 | INFO | pipeline | Pipeline started
+2026-02-25 14:07:05,651 | INFO | pipeline | Environment ready
+2026-02-25 14:07:05,651 | INFO | pipeline | Pipeline finished successfully
+2026-02-25 14:09:29,647 | INFO | pipeline | Pipeline started
+2026-02-25 14:09:29,648 | INFO | pipeline | SQLite connection established and raw tables created.
+2026-02-25 14:09:29,648 | INFO | pipeline | Pipeline finished successfully

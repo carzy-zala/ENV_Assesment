@@ -1,27 +1,18 @@
-from pathlib import Path
 from utils.logging.logger import logger
-
+from utils.connection.db import get_connection
+from config import DB_PATH
 
 def main():
-    Path("data").mkdir(exist_ok=True)
-
-    log = logger(
-        name="pipeline",
-        folder="pipeline",
-        info_file="pipeline.log",
-        error_file="pipeline_error.log",
-    )
-
+    log = logger("pipeline", "pipeline", "pipeline.log", "pipeline_error.log")
     log.info("Pipeline started")
 
-    try:
-        log.info("Environment ready")
+    conn = get_connection(DB_PATH)
 
-        log.info("Pipeline finished successfully")
+    log.info("SQLite connection established and raw tables created.")
+    conn.close()
 
-    except Exception as e:
-        log.exception(f"Pipeline failed: {e}")
-        raise
+    log.info("Pipeline finished successfully")
+
 
 if __name__ == "__main__":
     main()
