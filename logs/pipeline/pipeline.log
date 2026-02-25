@@ -96,3 +96,11 @@ sqlite3.OperationalError: table raw_landing has no column named ingested_at
 2026-02-25 16:37:46,814 | INFO | pipeline | DS2B transform complete: {'status': 'ok', 'ingested_at': '2026-02-25T16:37:45.259660+00:00', 'station_upserts': 1, 'measure_inserts': 30}
 2026-02-25 16:37:46,815 | INFO | pipeline | SQLite connection closed.
 2026-02-25 16:37:46,815 | INFO | pipeline | Pipeline finished successfully
+2026-02-25 22:04:39,568 | INFO | pipeline | Pipeline started
+2026-02-25 22:04:39,569 | INFO | pipeline | SQLite connection established and raw_landing table ready.
+2026-02-25 22:04:41,107 | INFO | pipeline | DS load complete: {'raw_rows_inserted': 4, 'ingested_at': '2026-02-25T22:04:39.570095+00:00'}
+2026-02-25 22:04:41,108 | INFO | pipeline | DS validation passed.
+2026-02-25 22:04:41,134 | INFO | pipeline | DS2B transform complete: {'status': 'ok', 'ingested_at': '2026-02-25T22:04:39.570095+00:00', 'station_upserts': 1, 'measure_inserts': 30}
+2026-02-25 22:04:41,163 | INFO | pipeline | B2S (Silver) complete: {'status': 'ok', 'ingested_at': '2026-02-25T22:04:39.570095+00:00', 'silver_station_upserts': 1, 'silver_measure_inserts': 30}
+2026-02-25 22:04:41,164 | INFO | pipeline | SQLite connection closed.
+2026-02-25 22:04:41,164 | INFO | pipeline | Pipeline finished successfully

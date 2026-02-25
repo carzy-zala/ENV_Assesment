@@ -7,8 +7,9 @@ from config import DB_PATH, BASE_URL, STATION_REF, LIMIT, PARAMETERS, APPEND_MOD
 from validate.ds_validate import validate_bronze_load
 from src.load.ds_load import extract_and_load_ds
 
-# NEW: DS2B driver
 from src.load.DS2B_load import run_ds2b
+from src.load.B2S_load import run_b2s
+
 
 
 def main():
@@ -43,6 +44,10 @@ def main():
         # ---------- DS2B LAYER ----------
         ds2b_summary = run_ds2b(conn)
         log.info(f"DS2B transform complete: {ds2b_summary}")
+        
+
+        b2s_summary = run_b2s(conn)
+        log.info(f"B2S (Silver) complete: {b2s_summary}")
 
     except Exception as e:
         log.exception(f"Pipeline failed: {e}")
