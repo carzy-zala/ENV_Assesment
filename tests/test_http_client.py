@@ -1,42 +1,45 @@
+from pathlib import Path
+import sys
+sys.path.append(str(Path(__file__).resolve().parents[1]))
+
 import pytest
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
+import requests
 
 from utils.connection.http_client import HttpClient
 
 
-def test_get_json_builds_correct_url_and_returns_json():
+def test_get_json_success():
     client = HttpClient(base_url="https://example.com")
 
     fake_response = Mock()
-    fake_response.json.return_value = {"hello": "world"}
-    fake_response.raise_for_status.return_value = None
+    fake_response.status_code = 200
+    fake_response.url = "https://example.com/test"
+    fake_response.text = ""
+    fake_response.json.return_value = {"ok": True}
 
     with patch("utils.connection.http_client.requests.get", return_value=fake_response) as mock_get:
-        result = client.get_json("/test", params={"a": 1})
+        data = client.get_json("/test", params={"a": 1})
 
-        # verify result
-        assert result == {"hello": "world"}
-
-        # verify correct request call
-        mock_get.assert_called_once()
-        args, kwargs = mock_get.call_args
-
-        # URL should be base + path
-        assert args[0] == "https://example.com/test"
-
-        # params forwarded
-        assert kwargs["params"] == {"a": 1}
-
-        # JSON header present
-        assert kwargs["headers"]["Accept"] == "application/json"
+    assert data == {"ok": True}
+    mock_get.assert_called_once()
+    args, kwargs = mock_get.call_args
+    assert args[0] == "https://example.com/test"
+    assert kwargs["params"] == {"a": 1}
+    assert kwargs["headers"]["Accept"] == "application/json"
 
 
-def test_get_json_raises_on_http_error():
+def test_get_json_raises_http_error_on_400():
     client = HttpClient(base_url="https://example.com")
 
     fake_response = Mock()
-    fake_response.raise_for_status.side_effect = Exception("HTTP error")
+    fake_response.status_code = 400
+    fake_response.url = "https://example.com/test"
+    fake_response.text = "Bad Request"
 
     with patch("utils.connection.http_client.requests.get", return_value=fake_response):
-        with pytest.raises(Exception):
-            client.get_json("/fail")
+        with pytest.raises(requests.HTTPError) as e:
+            client.get_json("/test")
+
+    assert "HTTP 400" in str(e.value)
+    assert "Bad Request" in str(e.value)

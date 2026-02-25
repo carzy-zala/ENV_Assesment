@@ -1,7 +1,7 @@
 import sqlite3
 from pathlib import Path
 from utils.errorHandling.errors import LoadError
-
+from datetime import datetime, timezone
 
 def get_connection(db_path: str) -> sqlite3.Connection:
     """
@@ -24,32 +24,36 @@ def get_connection(db_path: str) -> sqlite3.Connection:
 # --- NEW: raw landing schema ---
 
 def init_raw_table(conn: sqlite3.Connection) -> None:
-    """
-    Create the raw landing table if it does not exist.
-    Stores raw JSON payloads exactly as received.
-    """
-    try:
-        conn.execute("""
-            CREATE TABLE IF NOT EXISTS raw_landing (
-                id INTEGER PRIMARY KEY AUTOINCREMENT,
-                dataset TEXT NOT NULL,
-                payload TEXT NOT NULL
-            )
-        """)
-        conn.commit()
-    except sqlite3.Error as e:
-        raise LoadError(f"Failed to create raw_landing table: {e}") from e
+    conn.execute("""
+        CREATE TABLE IF NOT EXISTS raw_landing (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            dataset TEXT NOT NULL,
+            payload TEXT NOT NULL,
+            ingested_at TEXT NOT NULL
+        )
+    """)
+    conn.commit()
 
 
-def insert_raw_payload(conn: sqlite3.Connection, dataset: str, payload_json: str) -> None:
+def insert_raw_payload(conn: sqlite3.Connection, dataset: str, payload_json: str, ingested_at: str | None = None) -> None:
+    if ingested_at is None:
+        ingested_at = datetime.now(timezone.utc).isoformat()
+
+    conn.execute(
+        "INSERT INTO raw_landing(dataset, payload, ingested_at) VALUES (?, ?, ?)",
+        (dataset, payload_json, ingested_at),
+    )
+    conn.commit()
+
+def delete_datasets(conn: sqlite3.Connection, datasets: list[str]) -> None:
     """
-    Insert raw JSON payload into raw_landing table.
+    Delete specific datasets from raw_landing (overwrite mode).
     """
     try:
-        conn.execute(
-            "INSERT INTO raw_landing(dataset, payload) VALUES (?, ?)",
-            (dataset, payload_json),
+        conn.executemany(
+            "DELETE FROM raw_landing WHERE dataset = ?",
+            [(d,) for d in datasets]
         )
         conn.commit()
     except sqlite3.Error as e:
-        raise LoadError(f"Failed to insert raw payload: {e}") from e
+        raise LoadError(f"Failed to delete datasets from raw_landing: {e}") from e
