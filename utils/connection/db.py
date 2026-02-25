@@ -21,18 +21,40 @@ def get_connection(db_path: str) -> sqlite3.Connection:
         raise LoadError(f"Failed to connect to SQLite at {db_path}: {e}") from e
 
 
-# --- NEW: raw landing schema ---
-
 def init_raw_table(conn: sqlite3.Connection) -> None:
-    conn.execute("""
-        CREATE TABLE IF NOT EXISTS raw_landing (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            dataset TEXT NOT NULL,
-            payload TEXT NOT NULL,
-            ingested_at TEXT NOT NULL
-        )
-    """)
-    conn.commit()
+    """
+    Ensure raw_landing exists and has required columns.
+    Migrates older schema by adding ingested_at if missing.
+    """
+    try:
+        # 1) Create table if it doesn't exist (new schema)
+        conn.execute("""
+            CREATE TABLE IF NOT EXISTS raw_landing (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                dataset TEXT NOT NULL,
+                payload TEXT NOT NULL,
+                ingested_at TEXT NOT NULL
+            )
+        """)
+        conn.commit()
+
+        # 2) Check existing columns
+        cols = conn.execute("PRAGMA table_info(raw_landing);").fetchall()
+        col_names = {c[1] for c in cols}  # c[1] is column name
+
+        # 3) Migrate old schema -> add ingested_at
+        if "ingested_at" not in col_names:
+            conn.execute("ALTER TABLE raw_landing ADD COLUMN ingested_at TEXT;")
+            # backfill existing rows so NOT NULL logic is effectively satisfied
+            backfill_ts = datetime.now(timezone.utc).isoformat()
+            conn.execute(
+                "UPDATE raw_landing SET ingested_at = ? WHERE ingested_at IS NULL;",
+                (backfill_ts,)
+            )
+            conn.commit()
+
+    except sqlite3.Error as e:
+        raise LoadError(f"Failed to init/migrate raw_landing table: {e}") from e
 
 
 def insert_raw_payload(conn: sqlite3.Connection, dataset: str, payload_json: str, ingested_at: str | None = None) -> None:

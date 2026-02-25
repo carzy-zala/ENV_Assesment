@@ -45,3 +45,54 @@ requests.exceptions.HTTPError: 400 Client Error:  for url: https://environment.d
 2026-02-25 15:27:50,747 | INFO | pipeline | Bronze validation passed.
 2026-02-25 15:27:50,748 | INFO | pipeline | SQLite connection closed.
 2026-02-25 15:27:50,748 | INFO | pipeline | Pipeline finished successfully
+2026-02-25 16:33:56,378 | INFO | pipeline | Pipeline started
+2026-02-25 16:33:56,380 | INFO | pipeline | SQLite connection established and raw_landing table ready.
+2026-02-25 16:33:56,905 | ERROR | pipeline | Pipeline failed: table raw_landing has no column named ingested_at
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\Desktop\ENV_Assesment\main.py", line 24, in main
+    summary = extract_and_load_ds(
+        conn=conn,
+    ...<4 lines>...
+        append_mode=APPEND_MODE,
+    )
+  File "C:\Users\ADMIN\Desktop\ENV_Assesment\src\load\ds_load.py", line 33, in extract_and_load_ds
+    insert_raw_payload(
+    ~~~~~~~~~~~~~~~~~~^
+        conn,
+        ^^^^^
+    ...<2 lines>...
+        ingested_at=ingested_at,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ADMIN\Desktop\ENV_Assesment\utils\connection\db.py", line 42, in insert_raw_payload
+    conn.execute(
+    ~~~~~~~~~~~~^
+        "INSERT INTO raw_landing(dataset, payload, ingested_at) VALUES (?, ?, ?)",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (dataset, payload_json, ingested_at),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+sqlite3.OperationalError: table raw_landing has no column named ingested_at
+2026-02-25 16:33:56,908 | INFO | pipeline | SQLite connection closed.
+2026-02-25 16:36:44,776 | INFO | pipeline | Pipeline started
+2026-02-25 16:36:44,784 | INFO | pipeline | SQLite connection established and raw_landing table ready.
+2026-02-25 16:36:46,226 | INFO | pipeline | Bronze load complete: {'raw_rows_inserted': 4, 'ingested_at': '2026-02-25T16:36:44.785074+00:00'}
+2026-02-25 16:36:46,227 | INFO | pipeline | Bronze validation passed.
+2026-02-25 16:36:46,227 | INFO | pipeline | SQLite connection closed.
+2026-02-25 16:36:46,227 | INFO | pipeline | Pipeline finished successfully
+2026-02-25 16:37:34,818 | INFO | pipeline | Pipeline started
+2026-02-25 16:37:34,819 | INFO | pipeline | SQLite connection established and raw_landing table ready.
+2026-02-25 16:37:36,337 | INFO | pipeline | DS load complete: {'raw_rows_inserted': 4, 'ingested_at': '2026-02-25T16:37:34.820012+00:00'}
+2026-02-25 16:37:36,337 | INFO | pipeline | DS validation passed.
+2026-02-25 16:37:36,388 | INFO | pipeline | DS2B transform complete: {'status': 'ok', 'ingested_at': '2026-02-25T16:37:34.820012+00:00', 'station_upserts': 1, 'measure_inserts': 30}
+2026-02-25 16:37:36,388 | INFO | pipeline | SQLite connection closed.
+2026-02-25 16:37:36,388 | INFO | pipeline | Pipeline finished successfully
+2026-02-25 16:37:45,258 | INFO | pipeline | Pipeline started
+2026-02-25 16:37:45,259 | INFO | pipeline | SQLite connection established and raw_landing table ready.
+2026-02-25 16:37:46,789 | INFO | pipeline | DS load complete: {'raw_rows_inserted': 4, 'ingested_at': '2026-02-25T16:37:45.259660+00:00'}
+2026-02-25 16:37:46,790 | INFO | pipeline | DS validation passed.
+2026-02-25 16:37:46,814 | INFO | pipeline | DS2B transform complete: {'status': 'ok', 'ingested_at': '2026-02-25T16:37:45.259660+00:00', 'station_upserts': 1, 'measure_inserts': 30}
+2026-02-25 16:37:46,815 | INFO | pipeline | SQLite connection closed.
+2026-02-25 16:37:46,815 | INFO | pipeline | Pipeline finished successfully

@@ -1,9 +1,14 @@
 from utils.logging.logger import logger
 from utils.connection.db import get_connection, init_raw_table
 from utils.connection.http_client import HttpClient
+
 from config import DB_PATH, BASE_URL, STATION_REF, LIMIT, PARAMETERS, APPEND_MODE
+
 from validate.ds_validate import validate_bronze_load
 from src.load.ds_load import extract_and_load_ds
+
+# NEW: DS2B driver
+from src.load.DS2B_load import run_ds2b
 
 
 def main():
@@ -20,8 +25,8 @@ def main():
         # HTTP client
         client = HttpClient(BASE_URL)
 
-        # Extract + load bronze into SQLite
-        summary = extract_and_load_ds(
+        # ---------- DS LAYER ----------
+        ds_summary = extract_and_load_ds(
             conn=conn,
             client=client,
             station_ref=STATION_REF,
@@ -29,13 +34,17 @@ def main():
             limit=LIMIT,
             append_mode=APPEND_MODE,
         )
+        log.info(f"DS load complete: {ds_summary}")
 
-        log.info(f"Bronze load complete: {summary}")
+        # DS validation
         validate_bronze_load(conn, PARAMETERS)
-        log.info("Bronze validation passed.")
+        log.info("DS validation passed.")
+
+        # ---------- DS2B LAYER ----------
+        ds2b_summary = run_ds2b(conn)
+        log.info(f"DS2B transform complete: {ds2b_summary}")
 
     except Exception as e:
-        # log exception with stack trace
         log.exception(f"Pipeline failed: {e}")
         raise
     finally:

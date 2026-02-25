@@ -16,3 +16,31 @@ Traceback (most recent call last):
   File "C:\Users\ADMIN\Desktop\ENV_Assesment\.venv\Lib\site-packages\requests\models.py", line 1026, in raise_for_status
     raise HTTPError(http_error_msg, response=self)
 requests.exceptions.HTTPError: 400 Client Error:  for url: https://environment.data.gov.uk/hydrology/id/stations.json?search=HIPPER_PARK+ROAD+BRIDGE_E_202312&_limit=5&_view=full
+2026-02-25 16:33:56,905 | ERROR | pipeline | Pipeline failed: table raw_landing has no column named ingested_at
+Traceback (most recent call last):
+  File "C:\Users\ADMIN\Desktop\ENV_Assesment\main.py", line 24, in main
+    summary = extract_and_load_ds(
+        conn=conn,
+    ...<4 lines>...
+        append_mode=APPEND_MODE,
+    )
+  File "C:\Users\ADMIN\Desktop\ENV_Assesment\src\load\ds_load.py", line 33, in extract_and_load_ds
+    insert_raw_payload(
+    ~~~~~~~~~~~~~~~~~~^
+        conn,
+        ^^^^^
+    ...<2 lines>...
+        ingested_at=ingested_at,
+        ^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\ADMIN\Desktop\ENV_Assesment\utils\connection\db.py", line 42, in insert_raw_payload
+    conn.execute(
+    ~~~~~~~~~~~~^
+        "INSERT INTO raw_landing(dataset, payload, ingested_at) VALUES (?, ?, ?)",
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        (dataset, payload_json, ingested_at),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+sqlite3.OperationalError: table raw_landing has no column named ingested_at
