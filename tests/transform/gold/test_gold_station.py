@@ -4,7 +4,7 @@ import sys
 sys.path.append(str(Path(__file__).resolve().parents[2]))
 
 from utils.connection.db import get_connection
-from src.transform.gold.S2G_station import create_dim_station, upsert_dim_station_from_silver
+from src.transform.gold.S2G_station import create_fact_station, upsert_fact_station_from_silver
 
 
 def _create_silver_station(conn):
@@ -24,23 +24,23 @@ def _create_silver_station(conn):
     conn.commit()
 
 
-def test_create_dim_station_creates_table(tmp_path: Path):
+def test_create_fact_station_creates_table(tmp_path: Path):
     conn = get_connection(str(tmp_path / "g_station_1.db"))
-    create_dim_station(conn)
+    create_fact_station(conn)
 
     row = conn.execute("""
         SELECT name FROM sqlite_master
-        WHERE type='table' AND name='dim_station'
+        WHERE type='table' AND name='fact_station'
     """).fetchone()
 
     conn.close()
     assert row is not None
 
 
-def test_upsert_dim_station_from_silver_upserts(tmp_path: Path):
+def test_upsert_fact_station_from_silver_upserts(tmp_path: Path):
     conn = get_connection(str(tmp_path / "g_station_2.db"))
     _create_silver_station(conn)
-    create_dim_station(conn)
+    create_fact_station(conn)
 
     ts = "2026-02-25T00:00:00+00:00"
 
@@ -50,11 +50,11 @@ def test_upsert_dim_station_from_silver_upserts(tmp_path: Path):
     """, (ts,))
     conn.commit()
 
-    upsert_dim_station_from_silver(conn, ts)
+    upsert_fact_station_from_silver(conn, ts)
 
     r = conn.execute("""
         SELECT station_id, label, river_name, ingested_at
-        FROM dim_station WHERE station_id='E64999A'
+        FROM fact_station WHERE station_id='E64999A'
     """).fetchone()
 
     conn.close()

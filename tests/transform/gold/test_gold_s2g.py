@@ -76,13 +76,13 @@ def test_run_s2g_builds_dim_and_fact(tmp_path: Path):
     assert summary["status"] == "ok"
     assert summary["ingested_at"] == ts
 
-    dim = conn.execute("SELECT COUNT(*) FROM dim_station").fetchone()[0]
-    fact = conn.execute("SELECT COUNT(*) FROM fact_measurement").fetchone()[0]
+    dim = conn.execute("SELECT COUNT(*) FROM fact_station").fetchone()[0]
+    fact = conn.execute("SELECT COUNT(*) FROM dim_measurement").fetchone()[0]
     assert dim == 1
     assert fact == 1
 
     # joined key exists
-    station_key = conn.execute("SELECT station_key FROM fact_measurement").fetchone()[0]
+    station_key = conn.execute("SELECT station_key FROM dim_measurement").fetchone()[0]
     assert station_key is not None
 
     conn.close()

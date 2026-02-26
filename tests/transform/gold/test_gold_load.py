@@ -84,12 +84,12 @@ def test_run_s2g_builds_gold_from_latest_ingested_at(tmp_path: Path):
     assert summary["status"] == "ok"
     assert summary["ingested_at"] == new_ts
 
-    dim = conn.execute("SELECT COUNT(*) FROM dim_station").fetchone()[0]
-    fact_new = conn.execute("SELECT COUNT(*) FROM fact_measurement WHERE ingested_at=?", (new_ts,)).fetchone()[0]
-    fact_old = conn.execute("SELECT COUNT(*) FROM fact_measurement WHERE ingested_at=?", (old_ts,)).fetchone()[0]
+    dim = conn.execute("SELECT COUNT(*) FROM fact_station").fetchone()[0]
+    fact_new = conn.execute("SELECT COUNT(*) FROM dim_measurement WHERE ingested_at=?", (new_ts,)).fetchone()[0]
+    fact_old = conn.execute("SELECT COUNT(*) FROM dim_measurement WHERE ingested_at=?", (old_ts,)).fetchone()[0]
 
     # station label should be NEW
-    label = conn.execute("SELECT label FROM dim_station WHERE station_id='E64999A'").fetchone()[0]
+    label = conn.execute("SELECT label FROM fact_station WHERE station_id='E64999A'").fetchone()[0]
 
     conn.close()
 
