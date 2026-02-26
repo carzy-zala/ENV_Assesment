@@ -327,13 +327,3 @@ https://environment.data.gov.uk/hydrology/id/stations?search=HIPPER
 
 ---
 
-## Design Notes
-
-* SQLite chosen for portability and interview simplicity
-* Medallion architecture demonstrates real-world pipeline layering
-* Config-driven design enables easy parameter changes
-* Validation ensures data quality at every stage
-* Idempotency supported via overwrite/append modes
-* Gold star schema suitable for BI tools
-
----
