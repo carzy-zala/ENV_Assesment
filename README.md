@@ -15,6 +15,13 @@ The pipeline demonstrates:
 * Config-driven execution
 
 ---
+## Prerequisites
+
+* Python **3.10+**
+* Works on **Windows, macOS, and Linux**
+* SQLite (bundled with Python)
+
+---
 ## Project Setup
 
 ### 1. Fork the repository
@@ -98,46 +105,6 @@ python main.py
 └── tests/
 ```
 
----
-
-## Prerequisites
-
-* Python **3.10+**
-* Works on **Windows, macOS, and Linux**
-* SQLite (bundled with Python)
-
----
-
-## Create Virtual Environment
-
-### Windows (PowerShell)
-
-```powershell
-python -m venv .venv
-.\.venv\Scripts\Activate.ps1
-```
-
-### Windows (CMD)
-
-```cmd
-python -m venv .venv
-.\.venv\Scripts\activate
-```
-
-### macOS / Linux
-
-```bash
-python3 -m venv .venv
-source .venv/bin/activate
-```
-
----
-
-## Install Dependencies
-
-```bash
-pip install -r requirements.txt
-```
 ---
 
 ## Configuration
