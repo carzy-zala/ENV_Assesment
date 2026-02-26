@@ -15,6 +15,60 @@ The pipeline demonstrates:
 * Config-driven execution
 
 ---
+## Project Setup
+
+### 1. Fork the repository
+
+Fork the repo from:
+https://github.com/carzy-zala/ENV_Assesment
+
+Then clone your fork:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/ENV_Assesment.git
+cd ENV_Assesment
+```
+
+---
+
+### 2. Create a virtual environment
+
+```bash
+python -m venv .venv
+```
+
+Activate it:
+
+**Windows**
+
+```bash
+.venv\Scripts\activate
+```
+
+**Mac/Linux**
+
+```bash
+source .venv/bin/activate
+```
+
+---
+
+### 3. Install requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+---
+
+### 4. Run the project
+
+```bash
+python main.py
+```
+
+
+---
 
 ## Project Structure
 
