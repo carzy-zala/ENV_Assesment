@@ -85,8 +85,6 @@ python main.py
 ├── config.py
 ├── requirements.txt
 ├── README.md
-├── data/
-│   └── hydrology.db
 ├── logs/
 │   ├── pipeline.log
 │   └── pipeline_error.log
