@@ -1,4 +1,6 @@
-# Hydrology Data Engineering Pipeline (SQLite, Medallion Architecture, Star Schema)
+# Hydrology Data Engineering Pipeline 
+
+## SQLite, Medallion Architecture, Star Schema
 
 This project implements a production-style data engineering pipeline that ingests hydrology data from the Environment Agency Hydrology API, stores raw data, transforms it through Medallion layers, and exposes a star-schema model for analytics.
 
