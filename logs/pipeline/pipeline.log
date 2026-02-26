@@ -1,12 +1,12 @@
-2026-02-25 23:24:55,113 | INFO | pipeline | Pipeline started
-2026-02-25 23:24:55,115 | INFO | pipeline | SQLite connection established and raw_landing table ready.
-2026-02-25 23:24:56,678 | INFO | pipeline | DS load complete: {'raw_rows_inserted': 4, 'ingested_at': '2026-02-25T23:24:55.115616+00:00'}
-2026-02-25 23:24:56,678 | INFO | pipeline | DS validation passed.
-2026-02-25 23:24:56,706 | INFO | pipeline | DS2B transform complete: {'status': 'ok', 'ingested_at': '2026-02-25T23:24:55.115616+00:00', 'station_upserts': 1, 'measure_inserts': 30}
-2026-02-25 23:24:56,707 | INFO | pipeline | Bronze structured validation passed.
-2026-02-25 23:24:56,721 | INFO | pipeline | B2S (Silver) complete: {'status': 'ok', 'ingested_at': '2026-02-25T23:24:55.115616+00:00', 'silver_station_upserts': 1, 'silver_measure_inserts': 30}
-2026-02-25 23:24:56,722 | INFO | pipeline | Silver validation passed.
-2026-02-25 23:24:56,737 | INFO | pipeline | S2G (Gold) complete: {'status': 'ok', 'ingested_at': '2026-02-25T23:24:55.115616+00:00', 'dim_station_upserts': 1, 'fact_measurement_inserts': 30}
-2026-02-25 23:24:56,738 | INFO | pipeline | Gold validation passed.
-2026-02-25 23:24:56,738 | INFO | pipeline | SQLite connection closed.
-2026-02-25 23:24:56,738 | INFO | pipeline | Pipeline finished successfully
+2026-02-26 00:35:58,598 | INFO | pipeline | Pipeline started
+2026-02-26 00:35:58,599 | INFO | pipeline | SQLite connection established and raw_landing table ready.
+2026-02-26 00:36:00,564 | INFO | pipeline | DS load complete: {'raw_rows_inserted': 5, 'ingested_at': '2026-02-26T00:35:58.600017+00:00'}
+2026-02-26 00:36:00,564 | INFO | pipeline | DS validation passed.
+2026-02-26 00:36:00,597 | INFO | pipeline | DS2B transform complete: {'status': 'ok', 'ingested_at': '2026-02-26T00:35:58.600017+00:00', 'station_upserts': 1, 'measure_inserts': 40}
+2026-02-26 00:36:00,598 | INFO | pipeline | Bronze structured validation passed.
+2026-02-26 00:36:00,610 | INFO | pipeline | B2S (Silver) complete: {'status': 'ok', 'ingested_at': '2026-02-26T00:35:58.600017+00:00', 'silver_station_upserts': 1, 'silver_measure_inserts': 40}
+2026-02-26 00:36:00,615 | INFO | pipeline | Silver validation passed.
+2026-02-26 00:36:00,647 | INFO | pipeline | S2G (Gold) complete: {'status': 'ok', 'ingested_at': '2026-02-26T00:35:58.600017+00:00', 'dim_station_upserts': 1, 'fact_measurement_inserts': 40}
+2026-02-26 00:36:00,647 | INFO | pipeline | Gold validation passed.
+2026-02-26 00:36:00,648 | INFO | pipeline | SQLite connection closed.
+2026-02-26 00:36:00,648 | INFO | pipeline | Pipeline finished successfully

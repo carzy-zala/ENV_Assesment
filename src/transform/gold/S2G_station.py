@@ -1,9 +1,9 @@
 import sqlite3
 
 
-def create_dim_station(conn: sqlite3.Connection) -> None:
+def create_fact_station(conn: sqlite3.Connection) -> None:
     conn.execute("""
-        CREATE TABLE IF NOT EXISTS dim_station (
+        CREATE TABLE IF NOT EXISTS fact_station (
             station_key INTEGER PRIMARY KEY AUTOINCREMENT,
             station_id  TEXT NOT NULL UNIQUE,
             label       TEXT,
@@ -16,17 +16,17 @@ def create_dim_station(conn: sqlite3.Connection) -> None:
             ingested_at TEXT NOT NULL
         )
     """)
-    conn.execute("CREATE INDEX IF NOT EXISTS idx_dim_station_station_id ON dim_station(station_id)")
+    conn.execute("CREATE INDEX IF NOT EXISTS idx_fact_station_station_id ON fact_station(station_id)")
     conn.commit()
 
 
-def upsert_dim_station_from_silver(conn: sqlite3.Connection, ingested_at: str) -> int:
+def upsert_fact_station_from_silver(conn: sqlite3.Connection, ingested_at: str) -> int:
     """
     Upsert the station dimension using the latest silver snapshot for this batch.
     """
     cur = conn.cursor()
     cur.execute("""
-        INSERT INTO dim_station (
+        INSERT INTO fact_station (
             station_id, label, river_name, lat, long, easting, northing, status, ingested_at
         )
         SELECT
